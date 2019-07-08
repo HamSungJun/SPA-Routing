@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Page Title</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+
+    window.onpopstate = () => {
+      
+      console.log(`POP STATE OCCURED : ${JSON.stringify(event.state)}`)
+  
+    }
+    
+    window.onload = () => {
+
+      if(window.location.search.length != 0){
+        // 첫 접근이 쿼리문이 동반된 접근
+        
+      }
+
+      document.querySelectorAll('.pushStateLink').forEach((el) => {
+        el.addEventListener('click',(event)=>{
+          event.preventDefault()
+          
+          let targetHref = event.target.href.split("/")
+
+          let queryChunks = targetHref[targetHref.length-1].split("&&")
+          let pushStateData = queryChunks.reduce((acc,curr) => {
+
+            let KV = curr.split("=")
+
+            if(!(KV[0] in acc)){
+              acc[KV[0]] = KV[1]
+            }
+
+            return acc
+
+          },{})
+
+          console.log(pushStateData)
+
+          window.history.pushState(pushStateData,"",`?fruit=${pushStateData.fruit}&&cloth=${pushStateData.cloth}`)
+
+        })
+      })
+
+      
+    }
+  </script>
+</head>
+<body>
+  <div></div>
+  <a class="pushStateLink" href="fruit=사과&&cloth=남방">사과와남방</a>
+  <a class="pushStateLink" href="fruit=포도&&cloth=바지">포도와바지</a>
+  <a class="pushStateLink" href="fruit=복숭아&&cloth=모자">복숭아와모자</a>
+</body>
+</html>

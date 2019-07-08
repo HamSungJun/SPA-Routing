@@ -10,7 +10,7 @@ module.exports = {
     entry : path.join(__dirname,'Components','src','Root.jsx'),
     output : {
         filename : 'bundle.js',
-        path : path.join(__dirname,'bundle')
+        path : path.join(__dirname,'/public','/bundle')
     },
     devServer: {
 		hot : true,
@@ -49,7 +49,7 @@ module.exports = {
     plugins : [
         // new CompressionPlugin({
 		// 	compressionOptions: {
-		// 	  numiterations: 15,
+		// 	  numiterations: 5,
 		// 	},
 		// 	algorithm(input, compressionOptions, callback) {
 		// 	  return zopfli.gzip(input, compressionOptions, callback);
@@ -57,10 +57,6 @@ module.exports = {
 		// }),
         new CleanWebpackPlugin({}),
         new webpack.ProgressPlugin(),
-        new HtmlWebpackPlugin({
-            template : path.join(__dirname, 'public', 'html', 'index.html'),
-            inject : true
-        })
     ],
     target : 'web'
 }
