@@ -1,14 +1,14 @@
-const app = require('express')()
+const express = require('express')
+const path = require('path')
+const port = process.env.PORT || 8080
+let app = express()
 
-app.get('/',(req,res) => {
+app.use(express.static(__dirname + '/public'))
+
+app.get('*',(req,res) => {
   res.sendFile(__dirname+"/index.html")
 })
 
-app.get('/getData',(req,res) => {
-  res.json({
-    a : 1,
-    b : 2
-  }).end()
+app.listen(port,()=>{
+  console.log(`PORT : ${port}`)
 })
-
-app.listen(3000)

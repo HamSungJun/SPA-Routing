@@ -22,7 +22,7 @@
 
 - [브라우저 히스토리 조작하기](https://developer.mozilla.org/ko/docs/Web/API/History_API)
 
-```javascript1.6
+```javascript 1.6
 
     # 브라우저 히스토리 변경 이벤트 발생시 history.go() || history.back()
     window.onpopstate = () => {
@@ -85,8 +85,39 @@
 
 ## 시나리오.2 - 첫 접근이 쿼리문이 입력된 상태로 시작되는 경우 `("/?fruit=사과&&cloth=남방")`
 
-... 공부해볼게요
+> 서버로 접근하게 되는 경우 접근하는 URL에 따라 전달하는 Data나 리소스를 결정할 수 있는데 Single Page Application의 경우에는 접근하는 모든 라우팅에 대해서 같은 리소스를 응답하도록 설정한다.
 
+```javascript 1.6
+
+  const app = require('express')()
+  const path = require('path)
+  const port = process.env.PORT || 8080
+  
+  app.use(express.static(__dirname + '/public'))
+
+  # 모든 GET 요청에 대해
+  app.get('*',(req,res) => {
+
+    # index.html 파일을 응답해준다.
+    res.sendFile(path.resolve(__dirname,'index.html'))
+
+  })
+
+```
+
+> 클라이언트는 URL입력값을 읽고 쿼리문이 동반된 접근인 것을 확인하고 렌더링 할 수 있어야 한다. GET요청 쿼리문의 경우 '?' 기호를 통해 구분할 수 있고 window.location 객체를 분석하여 쿼리문이 동반된 접근인지도 확인가능하다.
+
+기본 경로로 접근한 경우
+![location_1](./images/windowLocation_1.png)
+
+쿼리를 동반하여 접근한 경우
+![location_2](./images/windowLocation_2.png)
+
+> `search` 프로퍼티를 확인하여 렌더링 동작을 분기시키면 될듯 하다... 실천에 옮겨보자
+
+
+
+> 이후 페이지 내에서 동작하는 요소들은 `pushState()`로 컨트롤 하며 `PJAX` 방식으로 통신 및 렌더링 된다.
 ### References
 
 - [SPA와 라우팅](https://heecheolman.tistory.com/41)
